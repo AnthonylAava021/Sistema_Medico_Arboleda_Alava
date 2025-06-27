@@ -13,8 +13,8 @@ def create_app():
     api = Api(app, version='1.0', title='API Citas Médicas', description='Sistema de Gestión de Citas Médicas', doc='/docs')
 
     # Importar namespaces
-    from app.controllers.paciente_controller import api as paciente_ns
-    from app.controllers.cita_controller import api as cita_ns
+    from app.controllers.paciente_controlador import api as paciente_ns
+    from app.controllers.cita_controlador import api as cita_ns
 
     api.add_namespace(paciente_ns)
     api.add_namespace(cita_ns)
