@@ -17,11 +17,15 @@ def create_app():
     from app.controllers.usuario_controlador import api as usuario_ns
     from app.controllers.doctor_controlador import api as doctor_ns
     from app.controllers.cita_controlador import api as cita_ns
+    from app.controllers.consulta_controlador import api as consulta_ns
+    from app.controllers.receta_controlador import api as receta_ns
    
 
     api.add_namespace(paciente_ns)
     api.add_namespace(usuario_ns)
     api.add_namespace(doctor_ns)
     api.add_namespace(cita_ns)
+    api.add_namespace(consulta_ns)
+    api.add_namespace(receta_ns)
 
     return app
