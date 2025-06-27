@@ -9,7 +9,7 @@ def create_app():
     app.config.from_object('app.config.Config')
 
     db.init_app(app)
-
+    #Docs para ver registros
     api = Api(app, version='1.0', title='API Citas Médicas', description='Sistema de Gestión de Citas Médicas', doc='/docs')
 
     # Importar namespaces
