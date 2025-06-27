@@ -1,13 +1,13 @@
 from flask import Flask
 from flask_restx import Api
 from flask_jwt_extended import JWTManager
-from app.configuracion_base import db  # Importa la instancia global
+from app.configuracion_base import db  
 
 def create_app():
     app = Flask(__name__)
     app.config.from_object('app.config.Config')
 
-    db.init_app(app)  # Vincula la instancia db con esta app
+    db.init_app(app) 
 
     JWTManager(app)
 
