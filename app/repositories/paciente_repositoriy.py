@@ -8,7 +8,7 @@ class PacienteRepository:
         return Paciente.query.all()
 #Método para obtener los pacientes
     @staticmethod
-    def crear(paciente):
+    def crear(paciente): 
         db.session.add(paciente)
         db.session.commit()
         return paciente
