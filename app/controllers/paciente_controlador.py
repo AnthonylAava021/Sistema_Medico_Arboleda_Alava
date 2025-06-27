@@ -8,7 +8,12 @@ modelo_paciente = api.model('Paciente', {
     'apellido': fields.String(required=True),
     'cedula': fields.String(required=True),
     'telefono': fields.String,
-    'correo': fields.String
+    'genero':fields.String(required=True),
+    'direccion' : fields.String,
+    'historial_medico' : fields.String,
+    'fecha_nacimiento' : fields.String
+
+
 })
 #Asignación de las rutas o endpoints
 @api.route('/')

@@ -5,7 +5,10 @@ class Paciente(db.Model):
     #Campos de la tabla paciente
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(100), nullable=False)
-    apellido = db.Column(db.String(100), nullable=False)
+    genero = db.Column(db.String(50), nullable=False)
     cedula = db.Column(db.String(20), unique=True, nullable=False)
     telefono = db.Column(db.String(20))
-    correo = db.Column(db.String(100))
+    direccion = db.Column(db.String(100))
+    historial_medico = db.Column(db.String(100))
+    fecha_nacimiento = db.Column(db.String(100))
+    
