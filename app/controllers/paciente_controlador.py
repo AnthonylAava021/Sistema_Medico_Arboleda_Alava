@@ -5,7 +5,6 @@ api = Namespace('pacientes', description='Operaciones con pacientes')
 #Se establece el modelo que tendrá los pacientes
 modelo_paciente = api.model('Paciente', {
     'nombre': fields.String(required=True),
-    'apellido': fields.String(required=True),
     'cedula': fields.String(required=True),
     'telefono': fields.String,
     'genero':fields.String(required=True),
