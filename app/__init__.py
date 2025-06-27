@@ -14,9 +14,9 @@ def create_app():
 
     # Importar namespaces
     from app.controllers.paciente_controlador import api as paciente_ns
-    from app.controllers.cita_controlador import api as cita_ns
+    #from app.controllers.cita_controlador import api as cita_ns
 
     api.add_namespace(paciente_ns)
-    api.add_namespace(cita_ns)
+    #api.add_namespace(cita_ns)
 
     return app
