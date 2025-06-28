@@ -1,0 +1,147 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 17.5
+-- Dumped by pg_dump version 17.5
+
+-- Started on 2025-06-27 18:57:39
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- TOC entry 4955 (class 0 OID 16432)
+-- Dependencies: 224
+-- Data for Name: citas; Type: TABLE DATA; Schema: public; Owner: citas
+--
+
+COPY public.citas (id, fecha_hora, estado, motivo, paciente_id, doctor_id) FROM stdin;
+1	2025-07-01 10:30:00	pendiente	saas	1	1
+\.
+
+
+--
+-- TOC entry 4957 (class 0 OID 16449)
+-- Dependencies: 226
+-- Data for Name: consultas; Type: TABLE DATA; Schema: public; Owner: citas
+--
+
+COPY public.consultas (id, diagnostico, notas, fecha, receta, paciente_id, doctor_id) FROM stdin;
+1	reservado	todo bien	2025-07-02 09:00:00	ndada	1	1
+\.
+
+
+--
+-- TOC entry 4953 (class 0 OID 16423)
+-- Dependencies: 222
+-- Data for Name: doctores; Type: TABLE DATA; Schema: public; Owner: citas
+--
+
+COPY public.doctores (id, nombre, cedula, genero, especialidad, telefono, cargo) FROM stdin;
+1	oscar	123223	masculino	ginecologo	dsadsa	gerente
+\.
+
+
+--
+-- TOC entry 4949 (class 0 OID 16391)
+-- Dependencies: 218
+-- Data for Name: pacientes; Type: TABLE DATA; Schema: public; Owner: citas
+--
+
+COPY public.pacientes (id, nombre, genero, cedula, telefono, direccion, historial_medico, fecha_nacimiento) FROM stdin;
+1	anthony	strdasding	adsdsad	dasd	das	ss	adsda
+\.
+
+
+--
+-- TOC entry 4959 (class 0 OID 16468)
+-- Dependencies: 228
+-- Data for Name: recetas; Type: TABLE DATA; Schema: public; Owner: citas
+--
+
+COPY public.recetas (id, medicamento, dosis, instrucciones, consulta_id) FROM stdin;
+1	loratadina	2 tabletas cada 16horas	ninguna	1
+\.
+
+
+--
+-- TOC entry 4951 (class 0 OID 16410)
+-- Dependencies: 220
+-- Data for Name: usuarios; Type: TABLE DATA; Schema: public; Owner: citas
+--
+
+COPY public.usuarios (id, username, email, password_hash, role) FROM stdin;
+1	anthony	hoola@hotmail.com	scrypt:32768:8:1$JaBjjxDDecH23smC$164028ea9ef4075b3fdd96f01c7d8503e630a4b3451e22a0153032c7fa854d5b9989f0354a41346736b2f9183b53d7de5f4396ec1a6fe18653e0542cb37e61eb	PACIENTE
+\.
+
+
+--
+-- TOC entry 4971 (class 0 OID 0)
+-- Dependencies: 223
+-- Name: citas_id_seq; Type: SEQUENCE SET; Schema: public; Owner: citas
+--
+
+SELECT pg_catalog.setval('public.citas_id_seq', 1, true);
+
+
+--
+-- TOC entry 4972 (class 0 OID 0)
+-- Dependencies: 225
+-- Name: consultas_id_seq; Type: SEQUENCE SET; Schema: public; Owner: citas
+--
+
+SELECT pg_catalog.setval('public.consultas_id_seq', 1, true);
+
+
+--
+-- TOC entry 4973 (class 0 OID 0)
+-- Dependencies: 221
+-- Name: doctores_id_seq; Type: SEQUENCE SET; Schema: public; Owner: citas
+--
+
+SELECT pg_catalog.setval('public.doctores_id_seq', 1, true);
+
+
+--
+-- TOC entry 4974 (class 0 OID 0)
+-- Dependencies: 217
+-- Name: pacientes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: citas
+--
+
+SELECT pg_catalog.setval('public.pacientes_id_seq', 1, true);
+
+
+--
+-- TOC entry 4975 (class 0 OID 0)
+-- Dependencies: 227
+-- Name: recetas_id_seq; Type: SEQUENCE SET; Schema: public; Owner: citas
+--
+
+SELECT pg_catalog.setval('public.recetas_id_seq', 1, true);
+
+
+--
+-- TOC entry 4976 (class 0 OID 0)
+-- Dependencies: 219
+-- Name: usuarios_id_seq; Type: SEQUENCE SET; Schema: public; Owner: citas
+--
+
+SELECT pg_catalog.setval('public.usuarios_id_seq', 1, true);
+
+
+-- Completed on 2025-06-27 18:57:39
+
+--
+-- PostgreSQL database dump complete
+--
+
