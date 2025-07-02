@@ -2,13 +2,6 @@ from flask import Flask
 from flask_restx import Api
 from flask_jwt_extended import JWTManager
 from app.configuracion_base import db  
-from .medico import CertificadoMedico
-from .factura import Factura, MetodoPago
-from .caja import DiarioCaja
-from .reporte import Reporte
-from .plan_cuentas import PlanCuentas
-
-__all__ = ['CertificadoMedico', 'Factura', 'MetodoPago', 'DiarioCaja', 'Reporte', 'PlanCuentas']
 
 def create_app():
     app = Flask(__name__)
