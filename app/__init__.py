@@ -19,7 +19,7 @@ def create_app():
     from app.controllers.cita_controlador import api as cita_ns
     from app.controllers.consulta_controlador import api as consulta_ns
     from app.controllers.receta_controlador import api as receta_ns
-   
+    from app.controllers.certificado_medico_controlador import api as certificado_ns
 
     api.add_namespace(paciente_ns)
     api.add_namespace(usuario_ns)
@@ -27,5 +27,6 @@ def create_app():
     api.add_namespace(cita_ns)
     api.add_namespace(consulta_ns)
     api.add_namespace(receta_ns)
+    api.add_namespace(certificado_ns)
 
     return app
