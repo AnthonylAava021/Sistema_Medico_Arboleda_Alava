@@ -27,7 +27,7 @@ class CertificadoResource(Resource):
 @api.route('/<int:certificado_id>/descargar')
 class DescargarCertificado(Resource):
     def get(self, certificado_id):
-        ruta = os.path.join(RUTA_CERTIFICADOS, f"certificado_{certificado_id}.pdf")  # Usar certificado_id y ruta absoluta
+        ruta = os.path.join(RUTA_CERTIFICADOS, f"certificado_{certificado_id}.pdf")
         
         if not os.path.exists(ruta):
             abort(404, description="Certificado no encontrado o no generado aún.")
