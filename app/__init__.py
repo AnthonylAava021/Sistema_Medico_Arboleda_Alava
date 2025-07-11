@@ -36,3 +36,22 @@ def create_app():
     api.add_namespace(reporte_ns)
 
     return app
+from flask import Flask
+from .configuracion_base import db
+
+def create_app(config_name=None):
+    app = Flask(__name__)
+
+    if config_name == "testing":
+        app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///:memory:"
+        app.config["TESTING"] = True
+    else:
+        # Configuración normal de producción o desarrollo
+        app.config.from_object("app.config")
+
+    db.init_app(app)
+
+    with app.app_context():
+        db.create_all()
+
+    return app
