@@ -1,0 +1,6 @@
+flask
+flask-restx
+flask-sqlalchemy
+psycopg2-binary
+reportlab
+pip install coverage
