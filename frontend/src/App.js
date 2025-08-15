@@ -14,7 +14,7 @@ function App() {
 
   return (
     <div>
-      {/* Navbar simple */}
+      {/* Navbar simple */} 
       <nav style={{ padding: 12, borderBottom: "1px solid #eee" }}>
         <Link to="/" style={{ marginRight: 12 }}>Inicio</Link>
         {token && <Link to="/pacientes" style={{ marginRight: 12 }}>Pacientes</Link>}

@@ -1,18 +1,37 @@
 from flask import Flask
 from flask_restx import Api
 from flask_jwt_extended import JWTManager
-from app.configuracion_base import db  
+from flask_cors import CORS
+from app.configuracion_base import db
 
 def create_app():
     app = Flask(__name__)
     app.config.from_object('app.config.Config')
 
-    db.init_app(app) 
+    # Evitar redirect por barra final
+    app.url_map.strict_slashes = False
 
+    # Habilitar CORS primero
+    CORS(
+        app,
+        resources={r"/*": {"origins": "http://localhost:3000"}},
+        supports_credentials=True
+    )
+
+    # Inicializar extensiones
+    db.init_app(app)
     JWTManager(app)
 
-    api = Api(app, version='1.0', title='API Citas Médicas', description='Sistema de Gestión de Citas Médicas', doc='/docs')
+    # Configurar documentación API
+    api = Api(
+        app,
+        version='1.0',
+        title='API Citas Médicas',
+        description='Sistema de Gestión de Citas Médicas',
+        doc='/docs'
+    )
 
+    # Importar controladores
     from app.controllers.paciente_controlador import api as paciente_ns
     from app.controllers.usuario_controlador import api as usuario_ns
     from app.controllers.doctor_controlador import api as doctor_ns
@@ -23,7 +42,8 @@ def create_app():
     from app.controllers.factura_controlador import api as factura_ns
     from app.controllers.caja_diaria_controlador import api as cajadiaria_ns
     from app.controllers.reporte_controlador import api as reporte_ns
-    
+
+    # Registrar namespaces
     api.add_namespace(paciente_ns)
     api.add_namespace(usuario_ns)
     api.add_namespace(doctor_ns)
