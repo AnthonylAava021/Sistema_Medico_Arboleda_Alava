@@ -15,4 +15,4 @@ with app.app_context():
     )
     db.session.add(nuevo_admin)
     db.session.commit()
-    print("Usuario 'admin' creado ✅")
+    print("Usuario 'admin' creado ")

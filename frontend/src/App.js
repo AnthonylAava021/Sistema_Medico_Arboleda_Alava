@@ -1,51 +1,46 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState } from "react";
+import { Routes, Route, Navigate, Link } from "react-router-dom";
 import Login from "./Login";
+import Pacientes from "./pages/Pacientes";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem("token") || null);
-  const [data, setData] = useState(null);
 
-  // Cada vez que haya token, pedimos pacientes
-  useEffect(() => {
-    if (token) {
-      axios.get("http://127.0.0.1:5000/pacientes", {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((response) => setData(response.data))
-      .catch((error) => {
-        console.error(error);
-        if (error.response && error.response.status === 401) {
-          // Si el token no es válido, lo borramos
-          localStorage.removeItem("token");
-          setToken(null);
-        }
-      });
-    }
-  }, [token]);
-
-  // Función para cerrar sesión
   const handleLogout = () => {
     localStorage.removeItem("token");
     setToken(null);
-    setData(null);
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      {!token ? (
-        <Login onLogin={setToken} />
-      ) : (
-        <div>
-          <h1>Pacientes</h1>
-          {data ? (
-            <pre>{JSON.stringify(data, null, 2)}</pre>
-          ) : (
-            <p>Cargando pacientes...</p>
-          )}
+    <div>
+      {/* Navbar simple */}
+      <nav style={{ padding: 12, borderBottom: "1px solid #eee" }}>
+        <Link to="/" style={{ marginRight: 12 }}>Inicio</Link>
+        {token && <Link to="/pacientes" style={{ marginRight: 12 }}>Pacientes</Link>}
+        {token ? (
           <button onClick={handleLogout}>Cerrar sesión</button>
-        </div>
-      )}
+        ) : (
+          <Link to="/login">Iniciar sesión</Link>
+        )}
+      </nav>
+
+      <Routes>
+        <Route
+          path="/"
+          element={<Navigate to={token ? "/pacientes" : "/login"} replace />}
+        />
+        <Route path="/login" element={<Login onLogin={setToken} />} />
+        <Route
+          path="/pacientes"
+          element={
+            <ProtectedRoute token={token}>
+              <Pacientes />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="*" element={<div style={{ padding: 20 }}>404</div>} />
+      </Routes>
     </div>
   );
 }

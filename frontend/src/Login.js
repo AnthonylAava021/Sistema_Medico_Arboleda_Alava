@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import { login as loginRequest } from "./api";
 
 function Login({ onLogin }) {
   const [username, setUsername] = useState("");
@@ -9,14 +9,11 @@ function Login({ onLogin }) {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://127.0.0.1:5000/usuarios/login", {
-        username,
-        password,
-      });
-      const token = response.data.access_token;
+      const { data } = await loginRequest(username, password);
+      const token = data.access_token;
       localStorage.setItem("token", token);
       setMessage("Login exitoso");
-      onLogin(token); // Mandamos token a App.js
+      onLogin(token);
     } catch (error) {
       console.error(error);
       setMessage("Usuario o contraseña incorrectos");
@@ -24,7 +21,7 @@ function Login({ onLogin }) {
   };
 
   return (
-    <div style={{ maxWidth: "300px", margin: "auto" }}>
+    <div style={{ maxWidth: 320, margin: "40px auto" }}>
       <h2>Login</h2>
       <form onSubmit={handleLogin}>
         <div>
