@@ -1,6 +1,7 @@
 // src/pages/Pacientes.jsx
 import React, { useEffect, useState } from "react";
-import { getPacientes, createPaciente } from "../api";
+
+import { getPacientes, createPaciente, deletePaciente, updatePaciente } from "../api";
 
 function Pacientes() {
   const [pacientes, setPacientes] = useState([]);
@@ -50,6 +51,24 @@ function Pacientes() {
       console.error("Error creando paciente", err);
     }
   };
+  const handleDelete = async (id) => {
+  // Confirmamos antes de eliminar
+  if (window.confirm("¿Seguro que deseas eliminar este paciente?")) {
+    try {
+      await deletePaciente(id);  // llama al backend
+      fetchPacientes();          // vuelve a cargar la lista actualizada
+    } catch (err) {
+      console.error("Error eliminando paciente", err);
+    }
+  }
+};
+
+const handleEdit = (paciente) => {
+  setForm(paciente); // carga los datos del paciente en el formulario hello
+};
+
+
+
 
   return (
     <div style={{ padding: 20 }}>
@@ -122,6 +141,10 @@ function Pacientes() {
               <td>{p.cedula}</td>
               <td>{p.telefono}</td>
               <td>{p.genero}</td>
+              <td>
+                <button onClick={() => handleEdit(p)}>Editar</button>
+                <button onClick={() => handleDelete(p.id)}>Eliminar</button>
+              </td>
             </tr>
           ))}
         </tbody>

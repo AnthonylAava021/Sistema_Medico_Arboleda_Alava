@@ -18,5 +18,9 @@
     API.post("/usuarios/login", { username, password });
 
   export const getPacientes = () => API.get("/pacientes/");
-export const createPaciente = (data) => API.post("/pacientes/", data);
+  export const createPaciente = (data) => API.post("/pacientes/", data);
+  export const getPaciente = (id) => API.get(`/pacientes/${id}`);
+  export const updatePaciente = (id, data) => API.put(`/pacientes/${id}`, data);
+  export const deletePaciente = (id) => API.delete(`/pacientes/${id}`);
+
   export default API;

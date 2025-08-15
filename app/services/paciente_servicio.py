@@ -11,3 +11,14 @@ class PacienteService:
     def crear(data):
         paciente = Paciente(**data)
         return PacienteRepository.crear(paciente)
+    @staticmethod
+    def obtener_por_id(id):
+        return PacienteRepository.obtener_por_id(id)
+
+    @staticmethod
+    def actualizar(id, data):
+        return PacienteRepository.actualizar(id, data)
+
+    @staticmethod
+    def eliminar(id):
+        return PacienteRepository.eliminar(id)
