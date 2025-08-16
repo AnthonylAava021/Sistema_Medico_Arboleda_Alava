@@ -37,4 +37,13 @@ export const getDoctor = (id) => API.get(`/doctores/${id}`);
 export const updateDoctor = (id, data) => API.put(`/doctores/${id}`, data);
 export const deleteDoctor = (id) => API.delete(`/doctores/${id}`);
 
+// ======================
+//  CITAS
+// ======================
+export const getCitas = () => API.get("/citas");
+export const createCita = (data) => API.post("/citas", data);
+export const getCita = (id) => API.get(`/citas/${id}`);
+export const updateCita = (id, data) => API.put(`/citas/${id}`, data);
+export const deleteCita = (id) => API.delete(`/citas/${id}`);
+
 export default API;

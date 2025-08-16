@@ -1,8 +1,10 @@
+// src/App.js
 import React, { useState } from "react";
 import { Routes, Route, Navigate, Link } from "react-router-dom";
 import Login from "./Login";
 import Pacientes from "./pages/Pacientes";
-import Doctores from "./pages/Doctores";   // 👈 importa la nueva vista
+import Doctores from "./pages/Doctores";
+import Citas from "./pages/Citas";   // 👈 importamos la vista de citas
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
@@ -20,6 +22,7 @@ function App() {
         <Link to="/" style={{ marginRight: 12 }}>Inicio</Link>
         {token && <Link to="/pacientes" style={{ marginRight: 12 }}>Pacientes</Link>}
         {token && <Link to="/doctores" style={{ marginRight: 12 }}>Doctores</Link>}
+        {token && <Link to="/citas" style={{ marginRight: 12 }}>Citas</Link>}  {/* 👈 nuevo link */}
         {token ? (
           <button onClick={handleLogout}>Cerrar sesión</button>
         ) : (
@@ -50,6 +53,16 @@ function App() {
           element={
             <ProtectedRoute token={token}>
               <Doctores />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Ruta de citas */}
+        <Route
+          path="/citas"
+          element={
+            <ProtectedRoute token={token}>
+              <Citas />
             </ProtectedRoute>
           }
         />

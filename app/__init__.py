@@ -11,18 +11,20 @@ def create_app():
     # Evitar redirect por barra final
     app.url_map.strict_slashes = False
 
-    # Habilitar CORS primero
+    # ✅ CORS correcto (solo aquí)
     CORS(
         app,
         resources={r"/*": {"origins": "http://localhost:3000"}},
-        supports_credentials=True
+        supports_credentials=True,
+        allow_headers=["Content-Type", "Authorization"],
+        methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"]
     )
 
-    # Inicializar extensiones
+    # Extensiones
     db.init_app(app)
     JWTManager(app)
 
-    # Configurar documentación API
+    # API /docs
     api = Api(
         app,
         version='1.0',
@@ -31,7 +33,7 @@ def create_app():
         doc='/docs'
     )
 
-    # Importar controladores
+    # Namespaces
     from app.controllers.paciente_controlador import api as paciente_ns
     from app.controllers.usuario_controlador import api as usuario_ns
     from app.controllers.doctor_controlador import api as doctor_ns
@@ -43,11 +45,10 @@ def create_app():
     from app.controllers.caja_diaria_controlador import api as cajadiaria_ns
     from app.controllers.reporte_controlador import api as reporte_ns
 
-    # Registrar namespaces
     api.add_namespace(paciente_ns)
     api.add_namespace(usuario_ns)
     api.add_namespace(doctor_ns)
-    api.add_namespace(cita_ns)
+    api.add_namespace(cita_ns)          # 👈 importante
     api.add_namespace(consulta_ns)
     api.add_namespace(receta_ns)
     api.add_namespace(certificado_ns)

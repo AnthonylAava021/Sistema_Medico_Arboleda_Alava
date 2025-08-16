@@ -1,21 +1,27 @@
-from datetime import datetime
+from app.repositories.cita_repository import CitaRepository
 from app.model.cita import Cita
-from app.configuracion_base import db
 
-def registrar_cita(data):
-    nueva_cita = Cita(
-        fecha_hora=datetime.fromisoformat(data['fecha_hora']),
-        estado=data.get('estado', 'pendiente'),
-        motivo=data.get('motivo'),
-        paciente_id=data['paciente_id'],
-        doctor_id=data['doctor_id']
-    )
-    db.session.add(nueva_cita)
-    db.session.commit()
-    return nueva_cita
+# Servicios de la API
+class CitaService:
+    # Muestra todas las citas
+    @staticmethod
+    def listar():
+        return CitaRepository.obtener_todos()
 
-def listar_citas():
-    return Cita.query.all()
+    # Crea una cita
+    @staticmethod
+    def crear(data):
+        cita = Cita(**data)
+        return CitaRepository.crear(cita)
 
-def buscar_cita_por_id(cita_id):
-    return Cita.query.get(cita_id)
+    @staticmethod
+    def obtener_por_id(id):
+        return CitaRepository.obtener_por_id(id)
+
+    @staticmethod
+    def actualizar(id, data):
+        return CitaRepository.actualizar(id, data)
+
+    @staticmethod
+    def eliminar(id):
+        return CitaRepository.eliminar(id)

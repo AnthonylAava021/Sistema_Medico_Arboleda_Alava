@@ -1,7 +1,7 @@
 // src/pages/Pacientes.jsx
 import React, { useEffect, useState } from "react";
-
 import { getPacientes, createPaciente, deletePaciente, updatePaciente } from "../api";
+import "./Pacientes.css";
 
 function Pacientes() {
   const [pacientes, setPacientes] = useState([]);
@@ -15,7 +15,6 @@ function Pacientes() {
     fecha_nacimiento: "",
   });
 
-  // Cargar pacientes al iniciar
   useEffect(() => {
     fetchPacientes();
   }, []);
@@ -46,92 +45,55 @@ function Pacientes() {
         historial_medico: "",
         fecha_nacimiento: "",
       });
-      fetchPacientes(); // recargar lista
+      fetchPacientes();
     } catch (err) {
       console.error("Error creando paciente", err);
     }
   };
+
   const handleDelete = async (id) => {
-  // Confirmamos antes de eliminar
-  if (window.confirm("¿Seguro que deseas eliminar este paciente?")) {
-    try {
-      await deletePaciente(id);  // llama al backend
-      fetchPacientes();          // vuelve a cargar la lista actualizada
-    } catch (err) {
-      console.error("Error eliminando paciente", err);
+    if (window.confirm("¿Seguro que deseas eliminar este paciente?")) {
+      try {
+        await deletePaciente(id);
+        fetchPacientes();
+      } catch (err) {
+        console.error("Error eliminando paciente", err);
+      }
     }
-  }
-};
+  };
 
-const handleEdit = (paciente) => {
-  setForm(paciente); // carga los datos del paciente en el formulario hello
-};
-
-
-
+  const handleEdit = (paciente) => {
+    setForm(paciente);
+  };
 
   return (
-    <div style={{ padding: 20 }}>
-      <h2>Gestión de Pacientes</h2>
+    <div className="pacientes-container">
+      <h2> Gestión de Pacientes</h2>
 
       {/* Formulario */}
-      <form onSubmit={handleSubmit} style={{ marginBottom: 20 }}>
-        <input
-          placeholder="Nombre"
-          name="nombre"
-          value={form.nombre}
-          onChange={handleChange}
-          required
-        />
-        <input
-          placeholder="Cédula"
-          name="cedula"
-          value={form.cedula}
-          onChange={handleChange}
-          required
-        />
-        <input
-          placeholder="Teléfono"
-          name="telefono"
-          value={form.telefono}
-          onChange={handleChange}
-        />
-        <input
-          placeholder="Género"
-          name="genero"
-          value={form.genero}
-          onChange={handleChange}
-          required
-        />
-        <input
-          placeholder="Dirección"
-          name="direccion"
-          value={form.direccion}
-          onChange={handleChange}
-        />
-        <input
-          placeholder="Historial Médico"
-          name="historial_medico"
-          value={form.historial_medico}
-          onChange={handleChange}
-        />
-        <input
-          type="date"
-          name="fecha_nacimiento"
-          value={form.fecha_nacimiento}
-          onChange={handleChange}
-        />
-        <button type="submit">Agregar Paciente</button>
+      <form className="paciente-form" onSubmit={handleSubmit}>
+        <input placeholder="Nombre" name="nombre" value={form.nombre} onChange={handleChange} required />
+        <input placeholder="Cédula" name="cedula" value={form.cedula} onChange={handleChange} required />
+        <input placeholder="Teléfono" name="telefono" value={form.telefono} onChange={handleChange} />
+        <input placeholder="Género" name="genero" value={form.genero} onChange={handleChange} required />
+        <input placeholder="Dirección" name="direccion" value={form.direccion} onChange={handleChange} />
+        <input placeholder="Historial Médico" name="historial_medico" value={form.historial_medico} onChange={handleChange} />
+        <input type="date" name="fecha_nacimiento" value={form.fecha_nacimiento} onChange={handleChange} />
+
+        <button type="submit" className="btn-primary">
+          {form.id ? " Guardar Cambios" : " Agregar Paciente"}
+        </button>
       </form>
 
-      {/* Lista de pacientes */}
-      <table border="1" cellPadding="5">
+      {/* Tabla */}
+      <table className="paciente-table">
         <thead>
           <tr>
             <th>Nombre</th>
             <th>Cédula</th>
             <th>Teléfono</th>
             <th>Género</th>
+            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -142,8 +104,8 @@ const handleEdit = (paciente) => {
               <td>{p.telefono}</td>
               <td>{p.genero}</td>
               <td>
-                <button onClick={() => handleEdit(p)}>Editar</button>
-                <button onClick={() => handleDelete(p.id)}>Eliminar</button>
+                <button className="btn-edit" onClick={() => handleEdit(p)}> Editar</button>
+                <button className="btn-delete" onClick={() => handleDelete(p.id)}>🗑 Eliminar</button>
               </td>
             </tr>
           ))}

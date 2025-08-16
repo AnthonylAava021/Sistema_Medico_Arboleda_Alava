@@ -1,0 +1,98 @@
+.pacientes-container {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #f9fafb;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.pacientes-container h2 {
+  text-align: center;
+  color: #1e3a8a;
+  margin-bottom: 20px;
+}
+
+/* FORMULARIO */
+.paciente-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.paciente-form input {
+  padding: 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  transition: 0.2s;
+}
+
+.paciente-form input:focus {
+  border-color: #2563eb;
+  outline: none;
+}
+
+.btn-primary {
+  grid-column: 1 / -1;
+  background: #2563eb;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-primary:hover {
+  background: #1e40af;
+}
+
+/* TABLA */
+.paciente-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.paciente-table th,
+.paciente-table td {
+  padding: 12px;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
+}
+
+.paciente-table th {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.btn-edit,
+.btn-delete {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 5px;
+  font-size: 14px;
+}
+
+.btn-edit {
+  background: #fbbf24;
+  color: white;
+}
+
+.btn-delete {
+  background: #ef4444;
+  color: white;
+}
+
+.btn-edit:hover {
+  background: #f59e0b;
+}
+
+.btn-delete:hover {
+  background: #dc2626;
+}

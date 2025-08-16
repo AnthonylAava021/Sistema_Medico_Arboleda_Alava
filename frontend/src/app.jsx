@@ -1,8 +1,10 @@
+// src/App.jsx
 import React, { useState } from "react";
 import { Routes, Route, Navigate, Link } from "react-router-dom";
 import Login from "./Login";
 import Pacientes from "./pages/Pacientes";
 import Doctores from "./pages/Doctores";
+import Citas from "./pages/Citas";   // 👈 importamos la vista de citas
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
@@ -20,6 +22,7 @@ function App() {
         <Link to="/" style={{ marginRight: 12 }}>Inicio</Link>
         {token && <Link to="/pacientes" style={{ marginRight: 12 }}>Pacientes</Link>}
         {token && <Link to="/doctores" style={{ marginRight: 12 }}>Doctores</Link>}
+        {token && <Link to="/citas" style={{ marginRight: 12 }}>Citas</Link>} {/* 👈 nuevo link */}
         {token ? (
           <button onClick={handleLogout}>Cerrar sesión</button>
         ) : (
@@ -34,6 +37,8 @@ function App() {
           element={<Navigate to={token ? "/pacientes" : "/login"} replace />}
         />
         <Route path="/login" element={<Login onLogin={setToken} />} />
+
+        {/* Pacientes */}
         <Route
           path="/pacientes"
           element={
@@ -42,6 +47,8 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        {/* Doctores */}
         <Route
           path="/doctores"
           element={
@@ -50,6 +57,17 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        {/* Citas */}
+        <Route
+          path="/citas"
+          element={
+            <ProtectedRoute token={token}>
+              <Citas />
+            </ProtectedRoute>
+          }
+        />
+
         <Route path="*" element={<div style={{ padding: 20 }}>404</div>} />
       </Routes>
     </div>

@@ -1,17 +1,7 @@
 from app import create_app
 from app.configuracion_base import db
-from flask_cors import CORS
 
 app = create_app()
-
-# Habilitar CORS correctamente para permitir Authorization y manejar OPTIONS
-CORS(
-    app,
-    resources={r"/*": {"origins": "*"}},
-    supports_credentials=True,
-    allow_headers=["Content-Type", "Authorization"],
-    methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"]
-)
 
 if __name__ == "__main__":
     with app.app_context():

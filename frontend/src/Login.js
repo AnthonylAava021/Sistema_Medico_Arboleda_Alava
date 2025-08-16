@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { login as loginRequest } from "./api";
+import "./login.css"; 
 
 function Login({ onLogin }) {
   const [username, setUsername] = useState("");
@@ -12,39 +13,43 @@ function Login({ onLogin }) {
       const { data } = await loginRequest(username, password);
       const token = data.access_token;
       localStorage.setItem("token", token);
-      setMessage("Login exitoso");
+      setMessage(" Login exitoso");
       onLogin(token);
     } catch (error) {
       console.error(error);
-      setMessage("Usuario o contraseña incorrectos");
+      setMessage("❌ Usuario o contraseña incorrectos");
     }
   };
 
   return (
-    <div style={{ maxWidth: 320, margin: "40px auto" }}>
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
-        <div>
-          <label>Usuario:</label>
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Contraseña:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit">Ingresar</button>
-      </form>
-      {message && <p>{message}</p>}
+    <div className="login-container">
+      <div className="login-card">
+        <h2 className="login-title">Iniciar Sesión</h2>
+        <form onSubmit={handleLogin} className="login-form">
+          <div className="form-group">
+            <label>Usuario</label>
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+              placeholder="Ingresa tu usuario"
+            />
+          </div>
+          <div className="form-group">
+            <label>Contraseña</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              placeholder="Ingresa tu contraseña"
+            />
+          </div>
+          <button type="submit" className="login-btn">Ingresar</button>
+        </form>
+        {message && <p className="login-message">{message}</p>}
+      </div>
     </div>
   );
 }
