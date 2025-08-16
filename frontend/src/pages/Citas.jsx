@@ -1,18 +1,18 @@
 // src/pages/Citas.jsx
 import React, { useEffect, useState } from "react";
 import { getCitas, createCita, deleteCita, updateCita } from "../api";
+import "./Citas.css";
 
 function Citas() {
   const [citas, setCitas] = useState([]);
   const [form, setForm] = useState({
+    paciente_id: "",
+    doctor_id: "",
     fecha: "",
     hora: "",
     motivo: "",
-    paciente_id: "",
-    doctor_id: "",
   });
 
-  // Cargar citas al iniciar
   useEffect(() => {
     fetchCitas();
   }, []);
@@ -22,7 +22,7 @@ function Citas() {
       const res = await getCitas();
       setCitas(res.data);
     } catch (err) {
-      console.error("❌ Error cargando citas", err);
+      console.error("Error cargando citas", err);
     }
   };
 
@@ -33,17 +33,23 @@ function Citas() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await createCita(form);
+      if (form.id) {
+        await updateCita(form.id, form);
+      } else {
+        await createCita(form);
+      }
+
       setForm({
+        paciente_id: "",
+        doctor_id: "",
         fecha: "",
         hora: "",
         motivo: "",
-        paciente_id: "",
-        doctor_id: "",
       });
-      fetchCitas(); // recargar lista
+
+      fetchCitas();
     } catch (err) {
-      console.error("❌ Error creando cita", err);
+      console.error("Error guardando cita", err);
     }
   };
 
@@ -53,7 +59,7 @@ function Citas() {
         await deleteCita(id);
         fetchCitas();
       } catch (err) {
-        console.error("❌ Error eliminando cita", err);
+        console.error("Error eliminando cita", err);
       }
     }
   };
@@ -63,11 +69,25 @@ function Citas() {
   };
 
   return (
-    <div style={{ padding: 20 }}>
-      <h2>Gestión de Citas</h2>
+    <div className="citas-container">
+      <h2>📅 Gestión de Citas</h2>
 
       {/* Formulario */}
-      <form onSubmit={handleSubmit} style={{ marginBottom: 20 }}>
+      <form className="cita-form" onSubmit={handleSubmit}>
+        <input
+          placeholder="ID Paciente"
+          name="paciente_id"
+          value={form.paciente_id}
+          onChange={handleChange}
+          required
+        />
+        <input
+          placeholder="ID Doctor"
+          name="doctor_id"
+          value={form.doctor_id}
+          onChange={handleChange}
+          required
+        />
         <input
           type="date"
           name="fecha"
@@ -88,46 +108,39 @@ function Citas() {
           value={form.motivo}
           onChange={handleChange}
         />
-        <input
-          placeholder="ID Paciente"
-          name="paciente_id"
-          value={form.paciente_id}
-          onChange={handleChange}
-          required
-        />
-        <input
-          placeholder="ID Doctor"
-          name="doctor_id"
-          value={form.doctor_id}
-          onChange={handleChange}
-          required
-        />
-        <button type="submit">Agregar Cita</button>
+
+        <button type="submit" className="btn-primary">
+          {form.id ? "💾 Guardar Cambios" : "➕ Agregar Cita"}
+        </button>
       </form>
 
-      {/* Lista de citas */}
-      <table border="1" cellPadding="5">
+      {/* Tabla */}
+      <table className="cita-table">
         <thead>
           <tr>
+            <th>Paciente</th>
+            <th>Doctor</th>
             <th>Fecha</th>
             <th>Hora</th>
             <th>Motivo</th>
-            <th>Paciente ID</th>
-            <th>Doctor ID</th>
             <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
           {citas.map((c, i) => (
             <tr key={i}>
+              <td>{c.paciente_id}</td>
+              <td>{c.doctor_id}</td>
               <td>{c.fecha}</td>
               <td>{c.hora}</td>
               <td>{c.motivo}</td>
-              <td>{c.paciente_id}</td>
-              <td>{c.doctor_id}</td>
               <td>
-                <button onClick={() => handleEdit(c)}>Editar</button>
-                <button onClick={() => handleDelete(c.id)}>Eliminar</button>
+                <button className="btn-edit" onClick={() => handleEdit(c)}>
+                  ✏️ Editar
+                </button>
+                <button className="btn-delete" onClick={() => handleDelete(c.id)}>
+                  🗑 Eliminar
+                </button>
               </td>
             </tr>
           ))}

@@ -1,18 +1,17 @@
+// src/pages/Doctores.jsx
 import React, { useEffect, useState } from "react";
 import { getDoctores, createDoctor, deleteDoctor, updateDoctor } from "../api";
+import "./Doctores.css";
 
 function Doctores() {
   const [doctores, setDoctores] = useState([]);
   const [form, setForm] = useState({
     nombre: "",
-    cedula: "",
-    genero: "",
     especialidad: "",
     telefono: "",
-    cargo: "",
+    email: "",
   });
 
-  // cargar doctores al iniciar
   useEffect(() => {
     fetchDoctores();
   }, []);
@@ -34,23 +33,19 @@ function Doctores() {
     e.preventDefault();
     try {
       if (form.id) {
-        // si hay id en el form → estamos editando
         await updateDoctor(form.id, form);
       } else {
         await createDoctor(form);
       }
 
-      // resetear form
       setForm({
         nombre: "",
-        cedula: "",
-        genero: "",
         especialidad: "",
         telefono: "",
-        cargo: "",
+        email: "",
       });
 
-      fetchDoctores(); // recargar lista
+      fetchDoctores();
     } catch (err) {
       console.error("Error guardando doctor", err);
     }
@@ -72,29 +67,15 @@ function Doctores() {
   };
 
   return (
-    <div style={{ padding: 20 }}>
+    <div className="doctores-container">
       <h2>Gestión de Doctores</h2>
 
       {/* Formulario */}
-      <form onSubmit={handleSubmit} style={{ marginBottom: 20 }}>
+      <form className="doctor-form" onSubmit={handleSubmit}>
         <input
           placeholder="Nombre"
           name="nombre"
           value={form.nombre}
-          onChange={handleChange}
-          required
-        />
-        <input
-          placeholder="Cédula"
-          name="cedula"
-          value={form.cedula}
-          onChange={handleChange}
-          required
-        />
-        <input
-          placeholder="Género"
-          name="genero"
-          value={form.genero}
           onChange={handleChange}
           required
         />
@@ -112,43 +93,43 @@ function Doctores() {
           onChange={handleChange}
         />
         <input
-          placeholder="Cargo"
-          name="cargo"
-          value={form.cargo}
+          placeholder="Email"
+          type="email"
+          name="email"
+          value={form.email}
           onChange={handleChange}
-          required
         />
 
-        <button type="submit">
-          {form.id ? "Actualizar Doctor" : "Agregar Doctor"}
+        <button type="submit" className="btn-primary">
+          {form.id ? " Guardar Cambios" : " Agregar Doctor"}
         </button>
       </form>
 
-      {/* Lista de doctores */}
-      <table border="1" cellPadding="5">
+      {/* Tabla */}
+      <table className="doctor-table">
         <thead>
           <tr>
             <th>Nombre</th>
-            <th>Cédula</th>
-            <th>Género</th>
             <th>Especialidad</th>
             <th>Teléfono</th>
-            <th>Cargo</th>
+            <th>Email</th>
             <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
-          {doctores.map((d) => (
-            <tr key={d.id}>
+          {doctores.map((d, i) => (
+            <tr key={i}>
               <td>{d.nombre}</td>
-              <td>{d.cedula}</td>
-              <td>{d.genero}</td>
               <td>{d.especialidad}</td>
               <td>{d.telefono}</td>
-              <td>{d.cargo}</td>
+              <td>{d.email}</td>
               <td>
-                <button onClick={() => handleEdit(d)}>Editar</button>
-                <button onClick={() => handleDelete(d.id)}>Eliminar</button>
+                <button className="btn-edit" onClick={() => handleEdit(d)}>
+                   Editar
+                </button>
+                <button className="btn-delete" onClick={() => handleDelete(d.id)}>
+                   Eliminar
+                </button>
               </td>
             </tr>
           ))}
