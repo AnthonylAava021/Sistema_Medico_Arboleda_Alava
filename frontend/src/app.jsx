@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Routes, Route, Navigate, Link } from "react-router-dom";
 import Login from "./Login";
 import Pacientes from "./pages/Pacientes";
-import Doctores from "./pages/Doctores";   // 👈 importa la nueva vista
+import Doctores from "./pages/Doctores";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
@@ -15,7 +15,7 @@ function App() {
 
   return (
     <div>
-      {/* Navbar simple */}
+      {/* Navbar */}
       <nav style={{ padding: 12, borderBottom: "1px solid #eee" }}>
         <Link to="/" style={{ marginRight: 12 }}>Inicio</Link>
         {token && <Link to="/pacientes" style={{ marginRight: 12 }}>Pacientes</Link>}
@@ -27,14 +27,13 @@ function App() {
         )}
       </nav>
 
+      {/* Rutas */}
       <Routes>
         <Route
           path="/"
           element={<Navigate to={token ? "/pacientes" : "/login"} replace />}
         />
         <Route path="/login" element={<Login onLogin={setToken} />} />
-
-        {/* Ruta de pacientes */}
         <Route
           path="/pacientes"
           element={
@@ -43,8 +42,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-
-        {/* Ruta de doctores */}
         <Route
           path="/doctores"
           element={
@@ -53,8 +50,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-
-        {/* Ruta no encontrada */}
         <Route path="*" element={<div style={{ padding: 20 }}>404</div>} />
       </Routes>
     </div>

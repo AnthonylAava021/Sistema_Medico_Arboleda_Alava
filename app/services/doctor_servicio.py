@@ -1,19 +1,24 @@
+from app.repositories.doctor_repository import DoctorRepository
 from app.model.doctor import Doctor
-from app.repositories.doctor_repositorio import crear_doctor, obtener_todos_los_doctores, obtener_doctor_por_id
 
-def registrar_doctor(data):
-    nuevo_doctor = Doctor(
-        nombre=data['nombre'],
-        cedula=data['cedula'],
-        genero=data['genero'],
-        especialidad=data['especialidad'],
-        telefono=data.get('telefono'),
-        cargo=data['cargo']
-    )
-    return crear_doctor(nuevo_doctor)
+class DoctorService:
+    @staticmethod
+    def listar():
+        return DoctorRepository.obtener_todos()
 
-def listar_doctores():
-    return obtener_todos_los_doctores()
+    @staticmethod
+    def crear(data):
+        doctor = Doctor(**data)
+        return DoctorRepository.crear(doctor)
 
-def buscar_doctor_por_id(doctor_id):
-    return obtener_doctor_por_id(doctor_id)
+    @staticmethod
+    def obtener(id):
+        return DoctorRepository.obtener_por_id(id)
+
+    @staticmethod
+    def actualizar(id, data):
+        return DoctorRepository.actualizar(id, data)
+
+    @staticmethod
+    def eliminar(id):
+        return DoctorRepository.eliminar(id)

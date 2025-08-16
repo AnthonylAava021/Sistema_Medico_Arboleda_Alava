@@ -1,28 +1,46 @@
 from flask_restx import Namespace, Resource, fields
-from flask import request
-from app.services import doctor_servicio
+from app.services.doctor_servicio import DoctorService
 
-api = Namespace('doctores', description='Operaciones relacionadas con los doctores')
+api = Namespace('doctores', description='Operaciones con doctores')
 
-doctor_model = api.model('Doctor', {
+modelo_doctor = api.model('Doctor', {
     'nombre': fields.String(required=True),
     'cedula': fields.String(required=True),
     'genero': fields.String(required=True),
     'especialidad': fields.String(required=True),
-    'telefono': fields.String(required=False),
+    'telefono': fields.String,
     'cargo': fields.String(required=True),
 })
 
 @api.route('/')
-class DoctorLista(Resource):
-    @api.marshal_list_with(doctor_model)
-    def get(self):
-        """Listar todos los doctores"""
-        return doctor_servicio.listar_doctores()
+class DoctorList(Resource):
 
-    @api.expect(doctor_model)
-    @api.marshal_with(doctor_model, code=201)
+    @api.marshal_list_with(modelo_doctor)
+    def get(self):
+        return DoctorService.listar()
+
+    @api.expect(modelo_doctor)
+    @api.marshal_with(modelo_doctor, code=201)
     def post(self):
-        """Registrar un nuevo doctor"""
-        data = request.json
-        return doctor_servicio.registrar_doctor(data), 201
+        return DoctorService.crear(api.payload), 201
+
+@api.route('/<int:id>')
+@api.response(404, 'Doctor no encontrado')
+class DoctorResource(Resource):
+
+    @api.marshal_with(modelo_doctor)
+    def get(self, id):
+        """Obtener un doctor por ID"""
+        return DoctorService.obtener(id)
+
+    @api.expect(modelo_doctor)
+    @api.marshal_with(modelo_doctor)
+    def put(self, id):
+        """Actualizar doctor"""
+        return DoctorService.actualizar(id, api.payload)
+
+    @api.response(204, 'Doctor eliminado')
+    def delete(self, id):
+        """Eliminar doctor"""
+        DoctorService.eliminar(id)
+        return '', 204
